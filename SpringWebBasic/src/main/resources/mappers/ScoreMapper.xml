@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 구현하고자 하는 인터페이스의 전체 경로를 작성 -->
+<mapper namespace="com.spring.basic.score.repository.IScoreMapper" >
+
+	<!-- 근데 나는 실수로 이름 동일하게 설정해서 이거 필요 없음
+	DB 컬럼명과 Entity 객체의 필드명을 맞추는 resultMap을 선언
+	<resultMap type="어디의_어느_엔티티객체" id="">
+	<resultMap type="com.spring.basic.score.entity.Score" id="scoreMap">
+		<id property = "stuNum" column="stu_num" />
+		<result property = "stuName" column="stu_name" />
+	</resultMap>
+	-->
+	<!-- id랑 result랑 뭐가 다른거임? 테이블의 PRIMARY KEY 는 id, 나머지는 result 태그로 선언 -->
+	
+	
+	<!-- <sql문_종륱 id="인터페이스의_구현하고자하는_메서드이름"></insert>  -->
+	
+	<!-- 점수 등록 기능 -->
+	<insert id="save">
+		INSERT INTO score
+		<!-- 실제로는 getter메서드를 부르는것! 편의상 그냥 get뒤의 이름으로 부르는 것! -->
+		VALUES (score_seq.NEXTVAL, #{stuName}, #{kor}, #{eng}, #{math},
+									 #{total}, #{average}, #{grade})
+	</insert>
+	
+	
+	<!-- 메서드에 리턴값이 있으면 resultType(마이바티스가 반환할 데이터가 많으면 알아서 List를 만드는데, 그 List에 담기는 애가 어디의누군지)도 적어줘야 함 -->
+	<!-- 테이블의 컬럼명과 Entity의 필드명이 다르다면 값을 가져오지 못하므로 해당하는 필드와 컬럼을 하나씩 지정해줘야함! <resultMap> -->
+	<!--  <select id="findAll" resultMap="scoreMap"> -->
+	<select id="findAll" resultType="com.spring.basic.score.entity.Score">
+		Select * From score
+	</select>
+	
+	
+	<!-- 점수 삭제 기능 -->
+	<delete id="deleteBystuNum">
+	<!-- 매개값이 하나 올 때는 매개변수명을 입력하고, 매개값이 여러개 올때? 무슨말인지 이해 못했어... -->
+		DELETE FROM score WHERE stuNum = #{stuNum}
+	</delete>
+	
+	
+	<!-- 점수 상세 정보 -->
+	<select id="findByStuNum" resultType="com.spring.basic.score.entity.Score">
+		SELECT * FROM score
+		WHERE stuNum = #{stuNum}
+	</select>
+
+
+	<!-- 점수 수정 -->
+	<!-- getter메서드부르는거니까 필드명 똑바로 써야함 -->
+	<update id="modify">
+		UPDATE score
+		SET kor=#{kor}, eng=#{eng}, math=#{math},
+		total=#{total}, average=#{average}, grade=#{grade}
+		WHERE stuNum=#{stuNum}
+	</update>
+</mapper>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+

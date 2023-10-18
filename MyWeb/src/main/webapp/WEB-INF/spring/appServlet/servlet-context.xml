@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!--  자동으로 컨트롤러와 매핑 메서드를 탐색(핸들러 맵핑, 핸들러 어댑터 빈 등록) -->
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+<<<<<<< HEAD
+	
+	
+	<!-- 비밀번호 암호화 객체 빈 등록 -->
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+=======
+>>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
+
+	<!-- 외부에 따로 설정한 설정 파일(.properties)을 참조하는 곳에 사용하는 클래스 -->
+    <beans:bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <beans:property name="locations">
+        	<beans:list>
+<<<<<<< HEAD
+        		<beans:value>classpath:/properties/Email.properties</beans:value>
+=======
+        		<beans:value>classpath:/properties/email.properties</beans:value>
+>>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
+        	</beans:list>
+        </beans:property>
+    </beans:bean>
+
+	<!-- css, img, js...의 파일 경로가 복잡할때 사용합니다.
+        jsp 파일 같은 데서 경로 긴 거 일일히 쓰기 귀찮잖아요. 그럴 때 선언합니다.
+        내부 경로를 숨겨주는 역할도 합니다. -->
+    <!-- mapping: 페이지 소스에서 드러나는 경로, location: 실제 폴더 경로 -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/css/**" location="/resources/static/css/" />
+    <resources mapping="/js/**" location="/resources/static/js/" />
+    <resources mapping="/img/**" location="/resources/static/img/" />
+    <resources mapping="/fonts/**" location="/resources/static/fonts/" />
+
+
+	<!-- 뷰리졸버 : 컨트롤러가 리턴한 문자열 앞, 뒤에 적절한 경로를 붙여서 화면을 응답할 수 있도록 도와주는 뷰 리졸버. -->
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	
+	<!-- 
+        아노테이션으로 (@Controller, @Service, @Repository, @Component...) 등록된 클래스 객체들을
+        탐색해서 빈으로 등록해 주는 설정 태그.
+        base-package에다가는 탐색할 패키지 경로를 쓰시면
+        하위 패키지까지 몽땅 검색해 줍니다.
+     -->
+	<context:component-scan base-package="com.spring.myweb" />
+	
+	
+	
+</beans:beans>

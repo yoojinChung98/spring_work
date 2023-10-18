@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- 
+        JDBC 관련 빈(클래스 객체) 등록, 설정 등을 관리하는 파일.
+        JDBC 뿐만 아니라 다양한 라이브러리를 사용할 때 필요한 빈 등록이나
+        설정 등을 담당하는 파일입니다.
+        지금은 초반부이기 때문에 아무것도 작성되어 있지 않습니다.
+     -->
+	
+	<!-- 히카리 커넥션 풀 빈 등록 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- 히카리가 커넥터드라이버 알아서 세팅해주고,
+		 	HikariConfig 클래스 내부의 필드값을 초기화 하기 위해 setter 메서드 호출
+			주입하는 값을 보면, Connection 객체에 필요한 요소들인 것을 볼 수 있음. -->
+		<property name = "driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name = "jdbcUrl" value="jdbc:oracle:thin:@Localhost:1521:xe" />
+		<property name = "username" value="hr" />
+		<property name = "password" value="hr" />
+	</bean>
+	
+	<!-- 히카리 데이터소스 빈 등록(커넥션 풀(pool) 정보를 (갖는)담는 객체 등록) -->
+	<bean id="ds" class="com.zaxxer.hikari.HikariDataSource" >
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+	
+	<!-- Spring JDBC를 사용하기 위한 핵심 객체 JdbcTemplate 클래스 빈 등록 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="ds" />		
+	</bean>
+	
+	<!-- myBatis SQL 동작을 위한 핵심 객체 SqlSessionFactory 클래스 빈 등록, Mapper가 어디있는지 알려줌. -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean" primary="false">
+		<property name="dataSource" ref="ds" />
+		<!-- 클래스 대신 xml파일을 만들고 그것이 작동하게 함. 그 인터페이스를 구현하는 xml파일을 어디에 작성할 것인지 묻는 것. -->
+		<!-- 인터페이스의 구현체가 될 xml 파일의 위치를 지목하는 setter 메서드 -->
+		<property name="mapperLocations" value="classpath:/mappers/*Mapper.xml" />
+		<!-- 
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:/mappers/ScoreMapper.xml</value>
+				<value>classpath:/mappers/BoardMapper.xml</value>
+				<value>classpath:/mappers/ReplyMapper.xml</value>
+				<value>classpath:/mappers/ImgMapper.xml</value>
+			</array>
+		</property>
+		-->
+	</bean>
+
+	<!-- IScoreMapper(매퍼의 인터페이스)가 어디에 있는지 나타내주는것? -->
+	<!-- 
+        SqlSessionFactory가 여러분이 지정하신 경로의 xml 파일을 클래스로 변환하여
+        bean으로 등록하려는 시도를 할 때, 어떤 타입으로 빈 등록을 할 지를 결정해야 하는데,
+        이미 xml 파일에는 해당 파일이 어떤 인터페이스를 구현하는 구현체인지는 명시되어 있습니다.
+        그 인터페이스가 존재하는 패키지의 경로를 탐색하라는 태그입니다.
+        그래 너네가 만든 xml 파일을 무슨타입의 빈으로 만들까? 아 무슨인터페이스인지는 명시해놨으니까 밑의 패키지의 경로에서 찾아보라고? ㅇㅋ
+     -->
+	<mybatis-spring:scan base-package="com.spring.basic.score.repository"/>
+	<mybatis-spring:scan base-package="com.spring.basic.board.repository"/>
+	
+</beans>

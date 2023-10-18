@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.spring.myweb.freeboard.mapper.IFreeBoardMapper">
+
+    
+    
+	<!-- resultMap 대신 마이바티스의 케밥->카멜 케이스로 바꾸는 속성을 사용할것임. mybatis-config.xml
+	<resultMap type="com.spring.myweb.freeboard.entity.FreeBoard" id="">
+		<result property="regDate" column="reg_date" />
+		<result property="updateDate" column="update_date" />
+	</resultMap>
+	 -->
+	
+	<!-- 
+        # 동적 SQL 쿼리
+        태그로 조건문을 사용하여 쿼리의 실행을 동적으로 제어할 수 있는 문법
+        중복된 SQL 쿼리를 피할 수 있고, 상황에 따른 능동적 대처가 가능합니다.
+        미리 쿼리문 조각을 준비해 놓고, <include refid="이름(id)" /> 를 통해 삽입하여 사용합니다.
+        
+        <sql id="id명(나중에_지목하기_위한 용도)">
+	    	<if test="변수명 == 값"></if>
+	    	<if test=""></if> ...
+    	</sql>
+        
+        해당 쿼리문 조각이 들어갈 곳에 id로 지명해서 호출
+        <include refid="이름(id)" /> 
+     -->
+    <sql id="search">
+    	<if test="condition == 'title'">
+    		WHERE title LIKE '%' || #{keyword} || '%'
+    	</if>
+    	<if test="condition == 'content'">
+    		WHERE content LIKE '%' || #{keyword} || '%'
+    	</if>
+    	<if test="condition == 'writer'">
+    		WHERE writer LIKE '%' || #{keyword} || '%'
+    	</if>
+    	<if test="condition == 'titleContent'">
+    		WHERE title LIKE '%' || #{keyword} || '%'
+    		OR content LIKE '%' || #{keyword} || '%'
+    	</if>
+    </sql>
+
+
+
+	<insert id="regist">
+		INSERT INTO freeboard (bno, title, writer, content)
+		VALUES (freeboard_seq.NEXTVAL, #{title}, #{writer}, #{content})
+	</insert>
+	
+	
+    
+	<select id="getList" resultType="freeboard">
+		SELECT * FROM
+			(
+			SELECT ROWNUM AS rn, tbl.*
+				FROM
+				(
+				SELECT * FROM freeboard
+				<include refid="search"></include>
+				ORDER BY bno DESC
+				) tbl
+			)
+		<!-- CDATA: Character Data의 약자로, 마크업 언어에서 문자열 데이터를 표기하기 위한 문법입니다.
+		특수 문자 등을 순수한 문자로 표기하고 싶을 때 사용하는 태그. -->
+		<![CDATA[ 
+		WHERE rn > #{pageStart} AND rn <= #{pageEnd}
+		]]> 
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*) FROM freeboard
+		<include refid="search"></include>
+	</select>
+	
+	<select id="getContent" resultType="freeboard">
+		SELECT * FROM freeboard
+		WHERE bno = ${bno}
+	</select>
+	
+	<update id="update">
+		UPDATE freeboard 
+		SET title=#{title}, content=#{content}, update_date = sysdate 
+		WHERE bno = #{bno}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM freeboard
+		WHERE bno = #{bno}
+	</delete>
+
+</mapper>

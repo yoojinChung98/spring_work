@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- JDBC, DB 관련 빈을 등록하고 관리하는 설정 파일
+	꼭 저 두개만 관리하는 것은 아니나 가급적이면 둘만 관리! 다른 빈은 다른 XML 파일에서 관리해도 ㅇㅋ -->
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	
+	<!-- 
+        프로젝트를 구성하다 보면 자주 변경되지 않는 설정 파일들이나, 공통 정보들에 대한 
+        내용이 존재하게 되고, 그 내용들은 한 번 지정되면 잘 바뀌지 않습니다.
+        또한 외부로 노출되었을 시 심각한 문제가 발생할 수도 있는 (계정 정보 등) 자료들은
+        .properties 라는 파일을 사용하여 텍스트 형식으로 간단히 지정하고
+        필요할 때 불러와서 사용하는 방식을 많이 사용합니다.
+        (.properties 파일은 gitignore에 추가하여 외부로 공개되지 않게 합니다.)
+     -->
+	
+	<!-- 외부에 따로 설정한 설정 파일(.properties)을 참조하는 곳에 사용하는 클래스 -->
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="location" value="classpath:/properties/Hikari.properties" />
+    </bean>
+	
+	    <!-- 히카리 커넥션 풀 빈 등록 -->
+     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+         <!-- HikariConfig 클래스 내부의 필드값을 초기화 하기 위해 setter 메서드 호출 
+             주입하는 값을 보면, Connection 객체에 필요한 요소들인 것을 볼 수 있음. -->
+         <property name="driverClassName" value="${ora.driverClassName}" />
+         <property name="jdbcUrl" value="${ora.url}" />
+         <property name="username" value="${ora.username}" />
+         <property name="password" value="${ora.password}" />
+     </bean>
+     
+      <!-- 히카리 데이터소스 빈 등록 (커넥션 풀 정보를 담는 객체 등록) -->
+     <bean id="ds" class="com.zaxxer.hikari.HikariDataSource">
+         <constructor-arg ref="hikariConfig" />
+     </bean>
+     
+     <!-- 마이바티스 SQL 동작을 위한 핵심 객체 SqlSessionFactory 클래스 빈 등록 -->
+     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+         <property name="dataSource" ref="ds" />
+         <property name="configLocation" value="classpath:/mybatis-config.xml" />
+         <property name="mapperLocations" value="classpath:/mappers/*Mapper.xml" />     
+     </bean>
+     
+     
+     <!-- 
+        SqlSessionFactory가 여러분이 지정하신 경로의 xml 파일을 클래스로 변환하여
+        bean으로 등록하려는 시도를 할 때, 어떤 타입으로 빈 등록을 할 지를 결정해야 하는데,
+        이미 xml 파일에는 해당 파일이 어떤 인터페이스를 구현하는 구현체인지는 명시되어 있습니다.
+        그 인터페이스가 존재하는 패키지의 경로를 탐색하라는 태그입니다.
+     -->
+    <mybatis-spring:scan base-package="com.spring.myweb.freeboard.mapper"/>
+    <mybatis-spring:scan base-package="com.spring.myweb.user.mapper"/>
+    
+    
+    
+    
+	
+	
+	
+</beans>

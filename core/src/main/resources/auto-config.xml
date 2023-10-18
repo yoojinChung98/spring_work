@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 자동 주입 기능 사용! -->
+	<!-- 자동 스캔 명령 추가 -->
+	<context:annotation-config />
+	
+	<!-- 스프링 컨테이너 내에 디자인한 객체 클래스를 등록 -->
+	<bean id="hotel1" class="core.chap3.Hotel"/>
+	
+	
+	
+	<bean id="asian" class="core.chap3.AsianRestaurant"/>
+	<bean id="sushi" class="core.chap3.SushiCourse" />
+	<bean id="asianChef" class="core.chap3.AsianChef" />
+	
+	<!-- ===================================================================== -->
+	
+	<!-- 생성자 주입하기! -->
+	<bean id="hotel2" class="core.chap3.Hotel"/>
+		
+	<bean id="wetern" class="core.chap3.WesternRestaurant"/>
+	<bean id="frenchChef" class="core.chap3.FrenchChef"/>
+	<bean id="frenchCourse" class="core.chap3.FrenchCourse"/>
+	
+
+
+
+
+
+</beans>

@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.spring</groupId>
+  <artifactId>core</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <!-- Maven
+        - 자바용 프로젝트 관리 도구.
+        - 배포를 위한 빌드 도구. 빌드 뿐만 아니라 프로젝트의 전체적 라이프 사이클을 관리.
+        필요한 라이브러리를 특정 문서(pom.xml)에 정의해서 사용할 라이브러리, 해당 라이브러리가
+        동작하기 위해 필요한 부가 라이브러리까지 관리하여 자동으로 다운로드 받아 준다.
+        - 스프링 프로젝트도 Maven 플랫폼을 기반으로 합니다.
+     -->
+     
+     <dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>5.3.18</version>
+		</dependency>
+
+     	
+     	<!-- jstl -->
+     	<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		    <version>1.2</version>
+		</dependency>
+		
+     	<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.28</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+     </dependencies>
+     
+
+     
+     <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>utf-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+     
+     
+</project>

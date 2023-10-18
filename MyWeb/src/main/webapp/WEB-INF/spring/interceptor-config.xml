@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- namespace 탭에서 mvc 기능 추가 -->
+	<!-- web.xml에 초기 설정 파일로 이 파일을 추가 -->
+
+	<bean id="userLoginHandler" class="com.spring.myweb.util.interceptor.UserLoginHandler" />
+	<bean id="userAuth" class="com.spring.myweb.util.interceptor.UserAuthHandler" />
+	
+	<mvc:interceptors>
+	
+		<!-- 로그인 이후에 실행되는 postHandler를 어떤 url에 동작하게 할 지 세팅 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/user/userLogin"/>
+			<ref bean="userLoginHandler"/>
+		</mvc:interceptor>
+		
+		<!-- 로그인 권한 체크 인터셉터 url 매핑 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/freeboard/freeRegist"/>
+			<mvc:mapping path="/user/userMypage"/>
+			<!-- /freeboard 의 모든 요청에 걸리게 할 때() <mvc:mapping path="/freeboard/**"/> -->
+			<ref bean="userAuth" />
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
+	
+
+</beans>

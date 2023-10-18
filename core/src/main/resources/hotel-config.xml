@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 스프링 컨테이너 내에 디자인한 객체 클래스를 등록 -->
+	<bean id="hotel1" class="core.chap2.Hotel">
+		<!-- setter메서드를 통해 주입해보자! -->
+		<property name="headChef" ref="asianChef"/>
+		<property name="restaurant" ref="asianRes"/>
+		<!-- hotel이 선언될 때 등록해놨던(밑의) setter메서드로 값을 주입 시키겠다는 의미 -->
+	</bean>
+	
+	
+	
+	<bean id="asianRes" class="core.chap2.AsianRestaurant">
+		<property name="chef" ref="asianChef"/>
+		<property name="course" ref="course"/>
+	</bean>
+	<bean id="course" class="core.chap2.SushiCourse" />
+	<bean id="asianChef" class="core.chap2.AsianChef" />
+	
+	<!-- ===================================================================== -->
+	
+	<!-- 생성자 주입하기! -->
+	<bean id="hotel2" class="core.chap2.Hotel">
+		<constructor-arg ref="wetern"/>
+		<constructor-arg ref="frenchChef"/>
+	</bean>
+		
+	<bean id="wetern" class="core.chap2.WesternRestaurant">
+		<constructor-arg ref="frenchChef"/>
+		<constructor-arg ref="frenchCourse"/>
+	</bean>
+	<bean id="frenchChef" class="core.chap2.FrenchChef"/>
+	<bean id="frenchCourse" class="core.chap2.FrenchCourse"/>
+
+
+
+
+
+</beans>

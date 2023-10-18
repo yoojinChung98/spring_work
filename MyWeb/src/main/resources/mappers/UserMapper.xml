@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.spring.myweb.user.mapper.IUserMapper">
+
+<<<<<<< HEAD
+	<resultMap type="user" id="userMap">
+		<result property="userName" column="user_name" />
+        <result property="userPhone1" column="user_phone1" />
+        <result property="userPhone2" column="user_phone2" />
+        <result property="userEmail1" column="user_email1" />
+        <result property="userEmail2" column="user_email2" />
+        <result property="addrBasic" column="addr_basic" />
+        <result property="addrDetail" column="addr_detail" />
+        <result property="addrZipNum" column="addr_zip_num" />
+        <collection property="userBoardList" resultMap="list"></collection>
+	</resultMap>
+	
+	
+	    <!-- collection 타입의 변수에 값을 매길 때에는 어떤 객체로 포장해서 넣을지를
+        새로운 resultMap으로 선언해 주셔야 합니다. 
+        sql에서 조회하는 컬럼에 대한 모든 정보를 작성해 주셔야 합니다. -->
+    <!-- 위에 있는 collection에 들어갈 객체가 어떤 식으로 포장될 지를 명시해주는 resultMap -->
+	<resultMap type="freeboard" id="list">
+		<id property="bno" column="bno" />
+		<result property="title" column="title" />
+		<result property="regDate" column="reg_date"/>
+	</resultMap>
+
+=======
+>>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
+	<select id="idCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM users
+		WHERE user_id = #{id}
+	</select>
+	
+	<!-- 저기 컬럼들,,, null이 아니면 넣겠다 동적으로 넣으면 좋을 것 같은뎅,,, -->
+	<insert id="join">
+		INSERT INTO users (user_id, user_pw, user_name,
+			user_phone1, user_phone2, user_email1, user_email2,
+			addr_basic, addr_detail, addr_zip_num )
+		VALUES (#{userId}, #{userPw}, #{userName},
+		 	#{userPhone1}, #{userPhone2}, #{userEmail1}, #{userEmail2},
+		 	#{addrBasic}, #{addrDetail}, #{addrZipNum} )
+	</insert>
+	
+	<select id="login" resultType="string">
+		SELECT user_pw
+		FROM users
+		WHERE user_id = #{id}
+	</select>
+	
+	<!-- 아이디,비밀번호는 사적인 데이터이므로 나중엔 일케 가져오지마셈 
+		그때그때 꼭 필요한 데이터만 가져오기를 추천! -->
+<<<<<<< HEAD
+	<select id="getInfo" resultMap="userMap">
+		SELECT 
+			user_name, user_phone1, user_phone2,
+			user_email1, user_email2, addr_basic,
+			addr_detail, addr_zip_num,
+			f.bno,
+			f.title,
+			f.reg_date
+		FROM users u
+		LEFT JOIN freeboard f
+		ON u.user_id = f.writer
+		WHERE user_id = #{id}
+		ORDER BY f.bno DESC
+=======
+	<select id="getInfo" resultType="user">
+		SELECT *
+		FROM users
+		WHERE user_id = #{userId}
+>>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
+	</select>
+	
+	
+	<update id="updateUser">
+		UPDATE users
+		SET 
+			user_pw = #{userPw},
+			user_name = #{userName},
+			user_phone1 = #{userPhone1},
+			user_phone2 = #{userPhone2},
+			user_email1 = #{userEmail1},
+			user_email2 = #{userEmail2},
+			addr_basic = #{addrBasic},
+			addr_detail = #{addrDetail},
+			addr_zip_num = #{addrZipNum}
+		WHERE user_id = #{userId}
+	</update>
+	
+
+
+
+</mapper>
