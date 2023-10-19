@@ -64,11 +64,7 @@
         };
 
         document.getElementById('joinBtn').onclick = function() {
-<<<<<<< HEAD
             location.href ='${pageContext.request.contextPath}/user/userJoin';
-=======
-            location.href ='/myweb/user/userJoin';
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
         }
 
     	

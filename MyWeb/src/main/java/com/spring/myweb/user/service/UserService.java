@@ -1,14 +1,9 @@
 package com.spring.myweb.user.service;
 
-<<<<<<< HEAD
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spring.myweb.user.dto.UserInfoResponseDTO;
-=======
-import org.springframework.stereotype.Service;
-
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 import com.spring.myweb.user.dto.UserJoinRequestDTO;
 import com.spring.myweb.user.entity.User;
 import com.spring.myweb.user.mapper.IUserMapper;
@@ -20,18 +15,13 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	
 	private final IUserMapper mapper;
-<<<<<<< HEAD
 	private final BCryptPasswordEncoder encoder;
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 
 	public int idCheck(String account) {
 		return mapper.idCheck(account);
-		
 	}
 
 	public void join(UserJoinRequestDTO dto) {
-<<<<<<< HEAD
 		
 		//회원 비밀번호 암호화 인코딩
 		System.out.println("암호화 하기 전 비밀번호: " + dto.getUserPw());
@@ -43,8 +33,6 @@ public class UserService {
 		
 		
 		
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 		//dto를 entity로 변환
 		User user = User.builder()
 				.userId(dto.getUserId())
@@ -61,7 +49,6 @@ public class UserService {
 		mapper.join(user);
 	}
 
-<<<<<<< HEAD
 	public String login(String userId, String userPw) {
 		String dbPw = mapper.login(userId);
 		if(dbPw != null) { //조회가 됐다면
@@ -76,18 +63,9 @@ public class UserService {
 
 	
 	
-	
 	public UserInfoResponseDTO getInfo(String id) {
 		User user = mapper.getInfo(id);
 		return UserInfoResponseDTO.toDTO(user);
 	} 
-=======
-	public void login(String userId) {
-		mapper.login(userId);
-		
-	}
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 	
-	
-
 }

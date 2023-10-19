@@ -168,7 +168,7 @@ public class ScoreJdbcRepository implements IScoreRepository {
 	}
 
 	@Override
-	public void deleteBystuNum(int stuNum) {
+	public void deleteByStuNum(int stuNum) {
 		//일단 stuNum 매개변수로 받음
 		String sql = "DELETE FROM score WHERE stuNUM = ? ";
 		//String sql = "DELETE FROM score WHERE stuNUM ="+stuNum;

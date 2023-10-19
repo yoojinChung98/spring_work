@@ -1,12 +1,9 @@
 package com.spring.myweb.user.entity;
 
 import java.time.LocalDateTime;
-<<<<<<< HEAD
 import java.util.List;
 
 import com.spring.myweb.freeboard.entity.FreeBoard;
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,7 +46,6 @@ public class User {
 	private String addrZipNum;
 	private LocalDateTime regDate;
 	
-<<<<<<< HEAD
 	/*
     한 명의 회원은 글을 여러 개 작성할 수 있습니다.
     마이페이지에서는 특정 회원이 작성한 글 목록을 나타내야 합니다.
@@ -62,8 +58,6 @@ public class User {
 	private List<FreeBoard> userBoardList;
 	
 	
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 	
 	
 }

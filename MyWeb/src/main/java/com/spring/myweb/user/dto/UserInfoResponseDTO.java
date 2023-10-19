@@ -30,6 +30,8 @@ public class UserInfoResponseDTO {
 	
 	private List<FreeListResponseDTO> userBoardList;
 	
+	
+	
 	public static UserInfoResponseDTO toDTO(User user) {
 		List<FreeListResponseDTO> list = new ArrayList<>();
 		for(FreeBoard board : user.getUserBoardList()) {

@@ -165,11 +165,7 @@
 
             // Promise 객체의 상태가 요청 성공일 시 데이터 후속 처리 진행. (실패시 catch라는 메서드가 실행됨)//서버 요청 정보 설정 (url에 동사적인 느낌을 주면 안되고, 무슨 일을 하려고 하는지 드러나게 적는것은 권장하지 않음.)
             //여기서는 jsp파일이라서 EL태그로 먼저 인식하므로 값이 잘 전달되지 않음. 따라서 문자열을 의미하기 위해 백슬래쉬를 붙임.
-<<<<<<< HEAD
             xhr.open('GET', 백틱기호${pageContext.request.contextPath}/user/백슬래시기호달러기호{userId}백틱기호);
-=======
-            xhr.open('GET', 백틱기호/myweb/user/백슬래시기호달러기호{userId}백틱기호);
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
             //.then(응답,,콜백,,함수,,,?)
             //.then(function(res))
             .then(res => {
@@ -202,11 +198,7 @@
             //비동기 요청을 fetch()로 보내고 결과를 확인하기.
             //화살표 함수내의 코드가 한줄이고 그것이 return 값이라면 괄호와 return 생략가능.
             //요청 완료 후 응답 정보에서 텍스트 데이터가 담긴 Promise 반환. 
-<<<<<<< HEAD
             fetch('${pageContext.request.contextPath}/user/'+userId)  //매개값이 2개 ((resolve(얘가 콜백함수의 기능을 함.))
-=======
-            fetch('/myweb/user/'+userId)  //매개값이 2개 ((resolve(얘가 콜백함수의 기능을 함.))
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
             .then(res => res.text() )  //텍스트 데이터만 담긴 Promise 객체로부터 텍스트 값만 추출하여 반환 한걸 왜 또 Promise 로 반환함? 그럼 뭐한거임?
             .then(data => {  //그 값을 data로 받아옴?
                 if(data === 'ok') {
@@ -239,11 +231,7 @@
             const email = document.getElementById('userEmail1').value + document.getElementById('userEmail2').value;
             console.log('완성된 email: ', email);
 
-<<<<<<< HEAD
             fetch('${pageContext.request.contextPath}/user/email', {
-=======
-            fetch('/myweb/user/email', {
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
                 method: 'post',
                 headers: {
                     'Content-Type': 'text/plain'

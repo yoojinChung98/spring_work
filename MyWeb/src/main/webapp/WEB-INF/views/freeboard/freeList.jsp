@@ -16,11 +16,7 @@
                     <hr>
                     
                     <!--form select를 가져온다 -->
-<<<<<<< HEAD
             <form action="${pageContext.request.contextPath}/freeboard/freeList">
-=======
-            <form action="/myweb/freeboard/freeList">
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 		    		<div class="search-wrap">
                        <button type="submit" class="btn btn-info search-btn">검색</button>
                        <input type="text" name="keyword" class="form-control search-input" value="${pc.page.keyword}">
@@ -46,11 +42,7 @@
                         	<c:forEach var="vo" items="${boardList}">
 	                            <tr>
 	                                <td>${vo.bno}</td>
-<<<<<<< HEAD
 	                                <td><a href="${pageContext.request.contextPath}/freeboard/content?bno=${vo.bno}&pageNo=${pc.page.pageNo}&amount=${pc.page.amount}&keyword=${pc.page.keyword}&condition=${pc.page.condition}">${vo.title}</a></td>
-=======
-	                                <td><a href="/myweb/freeboard/content?bno=${vo.bno}&pageNo=${pc.page.pageNo}&amount=${pc.page.amount}&keyword=${pc.page.keyword}&condition=${pc.page.condition}">${vo.title}</a></td>
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 	                                <td>${vo.writer}</td>
 	                                <td>${vo.date}</td>
 	                            </tr>
@@ -61,11 +53,7 @@
 
 
                     <!--페이지 네이션([이전]페이지버튼들[다음] 을 모두 합쳐서 페이지네이션이라고 부름)을 가져옴-->
-<<<<<<< HEAD
 		    <form action="${pageContext.request.contextPath}/freeboard/freeList" name="pageForm">
-=======
-		    <form action="/myweb/freeboard/freeList" name="pageForm">
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
                     <div class="text-center">
                     <hr>
                     <ul id="pagination" class="pagination pagination-sm">
@@ -83,11 +71,7 @@
                             <li><a href="#" data-pagenum="${pc.end+1}">다음</a></li>
                         </c:if>
                     </ul>
-<<<<<<< HEAD
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/freeRegist'">글쓰기</button>
-=======
-                    <button type="button" class="btn btn-info" onclick="location.href='/myweb/freeboard/freeRegist'">글쓰기</button>
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
                     </div>
 
                     <input type="hidden" name="pageNo" value="${pc.page.pageNo}"/>

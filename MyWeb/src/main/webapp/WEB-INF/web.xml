@@ -24,10 +24,7 @@
 			<param-value>
 				/WEB-INF/spring/appServlet/servlet-context.xml
 				/WEB-INF/spring/email-config.xml
-<<<<<<< HEAD
 				/WEB-INF/spring/interceptor-config.xml
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

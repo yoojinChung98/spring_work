@@ -27,7 +27,7 @@ public class FreeUpdateRequestDTO {
 		this.title = board.getTitle();
 		this.writer = board.getWriter();
 		this.content = board.getContent();
-		this.date = FreeListResponseDTO.makePrettierDateString(board.getUpdateDate()) + "(수정됨)";
+		this.date = FreeListResponseDTO.dateToString(board.getUpdateDate()) + "(수정됨)";
 	}
 	*/
 

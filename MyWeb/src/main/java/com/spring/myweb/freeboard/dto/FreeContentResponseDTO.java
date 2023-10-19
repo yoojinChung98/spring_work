@@ -22,9 +22,9 @@ public class FreeContentResponseDTO {
 		this.writer = board.getWriter();
 		this.content = board.getContent();
 		if(board.getUpdateDate() == null) {
-			this.date = FreeListResponseDTO.makePrettierDateString(board.getRegDate()); // static으로 메서드 호출해서 사용!
+			this.date = FreeListResponseDTO.dateToString(board.getRegDate()); // static으로 메서드 호출해서 사용!
 		}else {
-			this.date = FreeListResponseDTO.makePrettierDateString(board.getUpdateDate()) + "(수정됨)";
+			this.date = FreeListResponseDTO.dateToString(board.getUpdateDate()) + "(수정됨)";
 		}
 	}
 	

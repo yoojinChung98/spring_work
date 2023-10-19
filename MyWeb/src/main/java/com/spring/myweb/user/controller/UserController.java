@@ -1,10 +1,7 @@
 package com.spring.myweb.user.controller;
 
-<<<<<<< HEAD
 import javax.servlet.http.HttpSession;
 
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +40,7 @@ public class UserController {
     {}안에 변수명을 지어주시고, @PathVariable 괄호 안에 영역을 지목해서
     값을 받아옵니다.
     
-<<<<<<< HEAD
     ${pageContext.request.contextPath}/user/userJoin 도 받을 수 있는거 아님?
-=======
-    /myweb/user/userJoin 도 받을 수 있는거 아님?
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
      * Handler Mapping, Handler Adapter가 요청에 맞는 메서드를 위에서부터 순차적으로 탐색.
      * 해당 요청은 상단의 회원가입 페이지 이동이 적합해보여!
      * 오케이 얘로하자! 하고 아래는 가지도 않음
@@ -99,7 +92,6 @@ public class UserController {
 	
 	//로그인 요청
 	@PostMapping("/userLogin")
-<<<<<<< HEAD
 	public void login(String userId, String userPw, Model model) {
 		System.out.println("나는 UserController의 login! ");
 		model.addAttribute("result", service.login(userId, userPw));
@@ -116,12 +108,6 @@ public class UserController {
 		String id = (String) session.getAttribute("login");
 		model.addAttribute("userInfo", service.getInfo(id));
 	}
-=======
-	public void login(String userId, Model model) {
-		service.login(userId);
-	}
-	
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 	
 	
 }

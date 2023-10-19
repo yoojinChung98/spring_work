@@ -63,11 +63,8 @@ public class ScoreRepositoryImple implements IScoreRepository {
 	}
 	
 	@Override
-<<<<<<< HEAD
 	public void deleteByStuNum(int stuNum) {
-=======
-	public void deleteBystuNum(int stuNum) {
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
+
 		SCORE_MAP.remove(stuNum);
 	}
 	

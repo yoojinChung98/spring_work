@@ -55,6 +55,7 @@
      -->
     <mybatis-spring:scan base-package="com.spring.myweb.freeboard.mapper"/>
     <mybatis-spring:scan base-package="com.spring.myweb.user.mapper"/>
+    <mybatis-spring:scan base-package="com.spring.myweb.reply.mapper"/>
     
     
     

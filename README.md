@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-# Spring-practice
-spring-legacy-web
-사용 Tool 버전
-Spring Tool Suite 3.9.18 (Eclipse 4.21)
-링크
-Apache Tomcat 9.0.80
-링크
-프로젝트 세팅
-좌측 상단 File -> new -> Spring Legacy Project 선택
-Project name 선언 후에 Templates에서 Spring MVC Project 선택 (다운로드 필요)
-Top Level Package 선언 (com.spring.basic)
-pom.xml에 다음과 같이 선언
-=======
 # spring-legacy-web
 
 - 사용 Tool 버전
@@ -24,7 +10,6 @@ pom.xml에 다음과 같이 선언
 3. Top Level Package 선언 (com.spring.basic) <br>pom.xml에 다음과 같이 선언
 
 ```
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

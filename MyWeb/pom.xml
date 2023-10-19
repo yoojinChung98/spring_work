@@ -210,7 +210,6 @@
 		    <version>${org.springframework-version}</version>
 		</dependency>
 		
-<<<<<<< HEAD
 		<!-- spring-security-web -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
@@ -219,8 +218,6 @@
 		</dependency>
 		
 		
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
         
         
            

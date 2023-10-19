@@ -12,24 +12,17 @@
 	<!--  자동으로 컨트롤러와 매핑 메서드를 탐색(핸들러 맵핑, 핸들러 어댑터 빈 등록) -->
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
-<<<<<<< HEAD
 	
 	
 	<!-- 비밀번호 암호화 객체 빈 등록 -->
 	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 
 	<!-- 외부에 따로 설정한 설정 파일(.properties)을 참조하는 곳에 사용하는 클래스 -->
     <beans:bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <beans:property name="locations">
         	<beans:list>
-<<<<<<< HEAD
         		<beans:value>classpath:/properties/Email.properties</beans:value>
-=======
-        		<beans:value>classpath:/properties/email.properties</beans:value>
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
         	</beans:list>
         </beans:property>
     </beans:bean>

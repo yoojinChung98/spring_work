@@ -19,11 +19,8 @@ public interface IScoreRepository {
 	Score findByStuNum(int stuNum);
 
 	//성적 정보 삭제
-<<<<<<< HEAD
+
 	void deleteByStuNum(int stuNum);
-=======
-	void deleteBystuNum(int stuNum);
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 	
 	//성적 정보 교체(6.내꺼)
 	void modify(int stuNum, Score newScore);

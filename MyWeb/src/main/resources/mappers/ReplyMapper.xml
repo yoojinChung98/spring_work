@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.spring.myweb.reply.mapper.IReplyMapper">
+
+	<insert id="replyRegist">
+		INSERT INTO tbl_reply (reply_no, reply_text, reply_writer, reply_pw, bno)
+		VALUES (reply_seq.NEXTVAL, #{replyText}, #{replyWriter}, #{replyPw}, #{bno})
+	</insert>
+	
+	<select id="getList" resultType="reply">
+		SELECT * FROM
+            (
+            SELECT ROWNUM AS rn, tbl.* FROM
+                (
+                SELECT * FROM tbl_reply
+                WHERE bno = #{boardNo}
+                ORDER BY reply_no DESC
+                ) tbl
+            )
+        <![CDATA[
+        WHERE rn > #{paging.pageStart} AND rn <= #{paging.pageEnd}
+        ]]>
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*)
+		FROM tbl_reply
+		WHERE bno = #{bno}
+	</select>
+
+
+</mapper>

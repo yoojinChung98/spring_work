@@ -4,7 +4,6 @@
     
 <mapper namespace="com.spring.myweb.user.mapper.IUserMapper">
 
-<<<<<<< HEAD
 	<resultMap type="user" id="userMap">
 		<result property="userName" column="user_name" />
         <result property="userPhone1" column="user_phone1" />
@@ -28,8 +27,6 @@
 		<result property="regDate" column="reg_date"/>
 	</resultMap>
 
-=======
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 	<select id="idCheck" resultType="int">
 		SELECT COUNT(*)
 		FROM users
@@ -54,7 +51,6 @@
 	
 	<!-- 아이디,비밀번호는 사적인 데이터이므로 나중엔 일케 가져오지마셈 
 		그때그때 꼭 필요한 데이터만 가져오기를 추천! -->
-<<<<<<< HEAD
 	<select id="getInfo" resultMap="userMap">
 		SELECT 
 			user_name, user_phone1, user_phone2,
@@ -68,12 +64,6 @@
 		ON u.user_id = f.writer
 		WHERE user_id = #{id}
 		ORDER BY f.bno DESC
-=======
-	<select id="getInfo" resultType="user">
-		SELECT *
-		FROM users
-		WHERE user_id = #{userId}
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 	</select>
 	
 	

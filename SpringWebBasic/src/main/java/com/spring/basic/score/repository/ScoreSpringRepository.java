@@ -73,11 +73,7 @@ public class ScoreSpringRepository implements IScoreRepository {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public void deleteByStuNum(int stuNum) {
-=======
-	public void deleteBystuNum(int stuNum) {
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 		String sql = "DELETE FROM score WHERE stuNum = "+stuNum;
 		template.update(sql);
 	}
