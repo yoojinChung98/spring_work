@@ -57,11 +57,7 @@
             c. PUT - 수정
             d. DELETE - 삭제
             */
-<<<<<<< HEAD
             xhr.open('POST', '${pageContext.request.contextPath}/rest/object');
-=======
-            xhr.open('POST', '/myweb/rest/object');
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
 
             //3. 서버로 전송할 데이터를 제작합니다.
             //제작하는 데이터의 형식은 JSON 형태여야 합니다.

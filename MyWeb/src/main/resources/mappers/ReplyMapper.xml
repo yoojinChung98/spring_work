@@ -29,6 +29,23 @@
 		FROM tbl_reply
 		WHERE bno = #{bno}
 	</select>
-
+	
+	<select id="pwCheck" resultType="string">
+		SELECT reply_pw
+		FROM tbl_reply
+		WHERE reply_no = #{rno}
+	</select>
+	
+	<update id = "update">
+		UPDATE tbl_reply
+		SET reply_text = #{replyText}, update_date = sysdate
+		WHERE reply_no = #{replyNo}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM tbl_reply
+		WHERE reply_no = #{rno}
+	</delete>
+	
 
 </mapper>

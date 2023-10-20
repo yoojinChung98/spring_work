@@ -117,7 +117,7 @@
 
             const msg = '${msg}';
             if(msg === 'searchFail') {
-                alert('검색 결과가 없습니다.')
+                alert('검색 결과가 없습니다.');
             }
 
 

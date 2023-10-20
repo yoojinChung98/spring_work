@@ -4,16 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.myweb.reply.dto.ReplyListResponseDTO;
-import com.spring.myweb.reply.dto.replyRegistDTO;
+import com.spring.myweb.reply.dto.ReplyUpdateRequestDTO;
+import com.spring.myweb.reply.dto.replyRequestDTO;
 import com.spring.myweb.reply.service.IReplyService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +32,7 @@ public class ReplyController {
 	//댓글 등록 요청(POST)
 	@PostMapping()
 	@ResponseBody
-	public String replyRegist(@RequestBody replyRegistDTO dto) {
+	public String replyRegist(@RequestBody replyRequestDTO dto) {
 		System.out.println("댓글 등록 요청 들어옴" + dto);
 		service.replyRegist(dto);
 		return "regSuccess";
@@ -54,17 +57,28 @@ public class ReplyController {
 		List<ReplyListResponseDTO> list = service.getList(bno, pageNum); //댓글 목록
 		int total = service.getTotal(bno); //게시글의 댓글의 총개수
 
-		System.out.println("54행: "+list);
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
 		map.put("total", total);
-		
-		System.out.println("61행지남"+map);
+
 		
 		return map;
 	}
 	
+	//댓글 수정 요청
+	@PutMapping("/{rno}")
+	public String update(@PathVariable int rno, @RequestBody ReplyUpdateRequestDTO dto) {
+		dto.setReplyNo(rno);
+		return service.update(dto);
+	}
+	
+	//댓글 삭제 요청
+	@DeleteMapping("/{rno}")
+	public String delete(@PathVariable int rno, @RequestBody String replyPw) {
+		System.out.println("여기는 rno: "+rno);
+		System.out.println("replyPw의 형태: "+replyPw);
+		return service.delete(rno, replyPw);
+	}
 	
 	
 

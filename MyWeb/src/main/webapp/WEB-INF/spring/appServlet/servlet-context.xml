@@ -55,5 +55,17 @@
 	<context:component-scan base-package="com.spring.myweb" />
 	
 	
+	<!-- 파일 업로드에 필요한 객체 선언 -->
+	<!-- Multipart 형식으로 전달되는 데이터를 스프링 mvc에서 사용할 수 있도록 변환해주는 객체 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 최대 업로드 가능한 바이트 크기를 설정함. value 의 기준은 byte임. -1은 제한이 없음을 의미 -->
+		<beans:property name="maxUploadSize" value="10485760" />
+		
+		<!-- 업로드 요청을 변환할 때 사용할 문자 인코딩 방식 -->
+		<beans:property name="defaultEncoding" value="utf-8"/>
+	
+	</beans:bean>
+	
+	
 	
 </beans:beans>

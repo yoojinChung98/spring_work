@@ -11,11 +11,7 @@
                     <div class="titlebox">
                        	 회원가입
                     </div>
-<<<<<<< HEAD
                     <form action="${pageContext.request.contextPath}/user/join" method="post" name="joinForm">
-=======
-                    <form action="/myweb/user/join" method="post" name="joinForm">
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
                         <div class="form-group"><!--사용자클래스선언-->
                             <label for="id">아이디</label>
                             <div class="input-group"><!--input2탭의 input-addon을 가져온다 -->

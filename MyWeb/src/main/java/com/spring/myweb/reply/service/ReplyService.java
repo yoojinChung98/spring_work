@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.spring.myweb.freeboard.dto.page.Page;
 import com.spring.myweb.reply.dto.ReplyListResponseDTO;
-import com.spring.myweb.reply.dto.replyRegistDTO;
+import com.spring.myweb.reply.dto.ReplyUpdateRequestDTO;
+import com.spring.myweb.reply.dto.replyRequestDTO;
 import com.spring.myweb.reply.entity.Reply;
 import com.spring.myweb.reply.mapper.IReplyMapper;
 
@@ -24,7 +25,7 @@ public class ReplyService implements IReplyService{
 	private final BCryptPasswordEncoder encoder;
 	
 	@Override
-	public void replyRegist(replyRegistDTO dto) {
+	public void replyRegist(replyRequestDTO dto) {
 		dto.setReplyPw(encoder.encode(dto.getReplyPw())); //비밀번호 암호화
 		mapper.replyRegist(dto.toEntity(dto));
 		
@@ -40,24 +41,16 @@ public class ReplyService implements IReplyService{
 						.build();
 		//화면에서 전달된 댓글페이지 번호 
 		//댓글은 한 화면에 5개씩
-		
-		System.out.println("44행: "+bno+pageNum+page);
-		
-		
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("paging", page); //xml에서 사용할 "키값",value 로 맞춰놓는 것.
 		map.put("boardNo", bno);
-		
-		System.out.println("51행: "+map);
-		
+
 		List<ReplyListResponseDTO> dtoList = new ArrayList<>();
 		for(Reply reply : mapper.getList(map)) {
-			System.out.println("반복문 부분: "+reply);
 			dtoList.add(new ReplyListResponseDTO(reply));
 		}
-		
-		System.out.println("58행: "+dtoList);
-		
+
 		return dtoList;
 	}
 
@@ -73,15 +66,24 @@ public class ReplyService implements IReplyService{
 	}
 
 	@Override
-	public void update(Reply reply) {
-		// TODO Auto-generated method stub
+	public String update(ReplyUpdateRequestDTO dto) {
+		if(encoder.matches(dto.getReplyPw(), mapper.pwCheck(dto.getReplyNo()) )) {
+			mapper.update(dto.toEntity(dto));
+			return "updateSuccess";
+		} else {
+			return "pwFail";
+		}
 		
 	}
 
 	@Override
-	public void delete(int rno) {
-		// TODO Auto-generated method stub
-		
+	public String delete(int rno, String replyPw) {
+		if(encoder.matches(replyPw, mapper.pwCheck(rno))) {
+			mapper.delete(rno);
+			return "delSuccess";
+		} else {
+			return "pwFail";
+		}
 	}
 	
 	

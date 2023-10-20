@@ -37,13 +37,9 @@
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">
                                 <li class="active"><a href="<c:url value='/' />">Main</a></li>
-<<<<<<< HEAD
-                                <li><a href="<li><a href="${pageContext.request.contextPath}/user/userJoin"><span class="glyphicon glyphicon-user"></span>Join</a></li>/freeboard/freeList">자유게시판</a></li>
-=======
-                                <li><a href="/myweb/freeboard/freeList">자유게시판</a></li>
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
+                                <li><a href="${pageContext.request.contextPath}/freeboard/freeList">자유게시판</a></li>
+								<li><a href="${pageContext.request.contextPath}/snsboard/snsList">SNS</a></li>
                                 <!-- 
-				<li><a href="#">강의</a></li>
                                 <li><a href="#">Form</a></li>
                                 <li><a href="#">Board</a></li>
  				-->
@@ -54,21 +50,14 @@
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">로그인
                                         <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-<<<<<<< HEAD
                                     	<c:if test="${login == null}">
 	                                        <li><a href="${pageContext.request.contextPath}/user/userJoin"><span class="glyphicon glyphicon-user"></span>Join</a></li>
 	                                        <li><a href="${pageContext.request.contextPath}/user/userLogin"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
-                                    	</c:if>
+                                        </c:if>
                                         <c:if test="${login != null}">
 	                                        <li><a href="${pageContext.request.contextPath}/user/userMypage"><span class="glyphicon glyphicon-user"></span>MyPage</a></li>
 	                                        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
-                                        </c:if>
-=======
-                                        <li><a href="/myweb/user/userJoin"><span class="glyphicon glyphicon-user"></span>Join</a></li>
-                                        <li><a href="/myweb/user/userLogin"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
-                                        <li><a href="#"><span class="glyphicon glyphicon-user"></span>MyPage</a></li>
-                                        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
->>>>>>> 03aa3e370222594d6281070ca8190a48c48e102b
+                                    	</c:if>
                                     </ul>
                                 </li>
                             </ul>

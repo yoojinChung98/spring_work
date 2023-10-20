@@ -217,6 +217,22 @@
 		    <version>5.3.13.RELEASE</version>
 		</dependency>
 		
+		<!-- commons-fileupload : 서블릿 버전 3.0 이상에서 사용 가능한 파일 업로드 API-->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		
+		<!-- commons-io : 파일을 읽고 쓸 수 있게 하는 기능을 모아놓은 라이브러리-->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.11.0</version>
+		</dependency>
+		
+		
+		
 		
         
         
