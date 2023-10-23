@@ -1,6 +1,6 @@
-package com.spring.myweb.snsboard.entity;
+package com.spring.myweb.snsboard.dto;
 
-import java.time.LocalDateTime;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,14 +13,10 @@ import lombok.ToString;
 @Getter @Setter @ToString @EqualsAndHashCode
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-public class SnsBoard {
+public class SnsBoardRequestDTO {
 	
-	private int bno;
-	private String writer;
-	private String uploadPath;
-	private String fileLoca;
-	private String fileName;
-	private String fileRealName;
 	private String content;
-	private LocalDateTime regDate;
+	private String writer;
+	private MultipartFile file;
+	
 }

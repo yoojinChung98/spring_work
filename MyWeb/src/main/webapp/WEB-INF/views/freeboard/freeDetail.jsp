@@ -302,9 +302,11 @@
                 const content = e.target.parentNode.nextElementSibling.textContent;
                 console.log('댓글 내용: ', content);
 
+
                 //3. 모달 창 하나를 이용해서 상황에 맞게 수정/ 삭제 모달을 제공
                 //조건문 이용 (수정 / 삭제에 따라 모달 디자인을 조정)
                 //이벤트객체가, 가지고있는모든클래스리스트(Arrray 형식으로 받아옴)가, 포함하고있니('replyModify')? true=수정버튼 false=삭제버튼
+                
                 if(e.target.classList.contains('replyModify')) {
                     //수정버튼을 눌렀으므로 수정 모달 형식으로 꾸미겠음
                     document.querySelector('.modal-title').textContent = '댓글 수정';
@@ -315,6 +317,7 @@
 
                     //어쩔 수 없이 제이쿼리를 이용하여 bootstrap 모달을 여는 방법 ('show'): 열기 / ('hide'): 닫기
                     $('#replyModal').modal('show');
+                    
                 } else {
                     document.querySelector('.modal-title').textContent = '댓글 삭제';
                     document.getElementById('modalReply').style.display = 'none';

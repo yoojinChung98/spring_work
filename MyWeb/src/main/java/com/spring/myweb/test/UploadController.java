@@ -44,15 +44,15 @@ public class UploadController {
 		UUID uuid = UUID.randomUUID();
 		System.out.println("uuid: "+uuid.toString());
 		
-		String fileName = uuid.toString();
-		fileName = fileName.replace("-", "");
+		String fileName = (uuid.toString()).replace("-", "");
 		System.out.println("FileName: "+fileName);
 		
+
 		
-		//확장자이름만 빼기
+		//확장자 추출
 		String fileExtension = fileRealName.substring(
 					fileRealName.lastIndexOf("."), fileRealName.length()
-		); //확장자 추출
+		); 
 		System.out.println("확장자명: "+fileExtension);
 		
 		// DB에는 파일 경로를 저장한다고 가정하고, 실제 파일은 서버 컴퓨터의 로컬 경로에 저장하는 방식
@@ -63,7 +63,8 @@ public class UploadController {
 			System.out.println("폴더가 존재하지 않으므로 폴더를 생성하겠음");
 			f.mkdir();
 		}
-		
+
+		//경로+파일명+확장자/ 경로를 지목하기 위한 객체로 사용하는 것이고, File 자체가 어떤 파일을 의미하는 것은 아님.
 		File saveFile = new File(uploadFolder + "/" + fileName + fileExtension);
 		
 		//파일을 전송함

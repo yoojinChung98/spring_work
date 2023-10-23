@@ -20,6 +20,7 @@
 		<typeAlias type="com.spring.myweb.freeboard.entity.FreeBoard" alias="freeboard" />
 		<typeAlias type="com.spring.myweb.user.entity.User" alias="user" />
 		<typeAlias type="com.spring.myweb.reply.entity.Reply" alias="reply" />
+		<typeAlias type="com.spring.myweb.snsboard.entity.SnsBoard" alias="sns" />
 	</typeAliases>
 	
 

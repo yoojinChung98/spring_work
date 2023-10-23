@@ -4,6 +4,33 @@
     
 <mapper namespace="com.spring.myweb.snsboard.mapper.ISnsBoardMapper">
 
+	<insert id="insert">
+		INSERT INTO snsboard
+		(bno, writer, upload_path, file_loca, file_name, file_real_name, content)
+		VALUES
+		(snsboard_seq.NEXTVAL, #{writer}, #{uploadPath}, #{fileLoca}, #{fileName}, #{fileRealName}, #{content})
+	</insert>
+
+
+	<select id="getList" resultType="sns">
+		SELECT * FROM
+			(
+			SELECT ROWNUM AS rn, tbl.* FROM
+				(
+				SELECT * FROM snsboard
+				ORDER BY bno DESC
+				) tbl
+			)
+		<![CDATA[
+		WHERE rn > #{pageStart} AND rn <= #{pageEnd}
+		]]>
+	</select>
+	
+	<select id="getDetail" resultType="sns">
+		SELECT * From snsboard
+		WHERE bno = #{bno}
+	</select>
+	
 	
 	
 

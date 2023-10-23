@@ -75,8 +75,6 @@ public class ReplyController {
 	//댓글 삭제 요청
 	@DeleteMapping("/{rno}")
 	public String delete(@PathVariable int rno, @RequestBody String replyPw) {
-		System.out.println("여기는 rno: "+rno);
-		System.out.println("replyPw의 형태: "+replyPw);
 		return service.delete(rno, replyPw);
 	}
 	

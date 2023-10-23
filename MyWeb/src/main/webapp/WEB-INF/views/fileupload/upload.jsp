@@ -20,8 +20,8 @@
 	
 	
 	<form action="${pageContext.request.contextPath}/fileupload/upload_ok2" method="post" enctype="multipart/form-data">
-		파일 선택: <input type="file" name="file" multiple="multiple"/> <br/>
-		<input type="submit" value="전송"/>
+		파일 선택: <input type="file" name="files" multiple="multiple"> <br>
+		<input type="submit" value="전송">
 	</form>
 	<hr/>
 	
