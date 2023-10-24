@@ -4,14 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,10 +27,13 @@ import com.spring.myweb.snsboard.dto.SnsBoardResponseDTO;
 import com.spring.myweb.snsboard.service.SnsBoardService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @RestController
 @RequestMapping("/snsboard")
 @RequiredArgsConstructor
+@Slf4j
 public class SnsBoardController {
 
 	private final SnsBoardService service;
@@ -48,7 +56,8 @@ public class SnsBoardController {
 	
 	@GetMapping("/{page}")
 	public List<SnsBoardResponseDTO> getList(@PathVariable int page) {
-		System.out.println("/snsboard/getList: GET");
+		//System.out.println("/snsboard/getList: GET");
+		log.info("/snsboard/getList: GET");
 		return service.getList(page);
 	}
 	
@@ -62,8 +71,11 @@ public class SnsBoardController {
 	@GetMapping("/display/{fileLoca}/{fileName}")
 	public ResponseEntity<?> getImage(@PathVariable String fileLoca, @PathVariable String fileName) {
 		//제너릭 문법 (타입이 불명확할때 제너릭 타입으로 ? 를 찍으면 어떤 타입이든 넣어서 반환할 수 있음 ResponseEntity 이기만 함!)
-		System.out.println("fileLoca : "+fileLoca);
-		System.out.println("fileName : "+fileName);
+//		System.out.println("fileLoca : "+fileLoca);
+//		System.out.println("fileName : "+fileName);
+		log.info("fileLoca : "+fileLoca);
+		//문자열에 {}로 자리를 만들어놓고 후속 매개변수로 그 자리를 순차적으로 채워주는 방법도 가능하다!
+		log.info("fileName {}: ",fileName);
 		
 		File file = new File("C:/test/upload/"+ fileLoca + "/" + fileName);
 		System.out.println(file.toString()); //완성된 경로.
@@ -145,15 +157,59 @@ public class SnsBoardController {
 	
 	@GetMapping("/content/{bno}")
 	public SnsBoardResponseDTO detail(@PathVariable int bno) {
-		
 		return service.getDetail(bno);
+	}
+	
+	/*
+	//이렇게도 가능하다!
+	//단순히 값만 보낼거면 DTO 만 보내도 문제 없지만, 처리에 따른 응답상태 코드까지 함께 보내고 싶다면 ResponseEntity<>를 사용해도 무방!
+	//꼭 이미지 파일을 보낼 때만 해당 객체를 사용해야 하는 것은 아님!
+	@GetMapping("/content/{bno}")
+	public ResponseEntity<?> getDetail(@PathVariable int bno) {
+		return ResponseEntity.ok().body(service.getDetail(bno));
+	}
+	*/
+	
+	@DeleteMapping("/{bno}")
+	public String delete(@PathVariable int bno, HttpSession session) {
 		
+		System.out.println("delete 요청 받음"+bno);
+
+		String id = (String) session.getAttribute("login");
+		SnsBoardResponseDTO dto = service.getDetail(bno);
+		System.out.println("dto 받아옴: "+dto);
+		
+		if(id == null || !id.equals(dto.getWriter())) {
+			System.out.println("조건문에 걸렸음!");
+			return "noAuth";
+			//return ResponseEntity.status(Httpstatus.UNAUTHORIZED).build();
+		}
+			service.delete(bno);
+			System.out.println("delete 함수 지남");
+			
+			File file = new File(dto.getUploadPath() + dto.getFileLoca() +"/"+ dto.getFileName());
+			System.out.println("파일 삭제로직 지나침");
+			return file.delete() ? "success" : "fail" ;
+			//return file.delete() ? ResponseEntity.status(HttpStatus.OK).build() :
+							//ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	}
+		
+		
+	//좋아요 버튼 클릭 처리
+	@PostMapping("/like")
+	public String likeConfirm(@RequestBody Map<String, String> params) {
+		log.info("/like: POST, params: {}", params);
+		
+		return service.searchLike(params);
 	}
 	
 	
 	
 	
 }
+	
+	
+	
 
 
 

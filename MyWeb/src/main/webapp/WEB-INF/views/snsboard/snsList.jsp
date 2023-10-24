@@ -4,6 +4,7 @@
 <html>
 
 <head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
 	<style type="text/css">
 		section {
@@ -353,6 +354,9 @@
 		//글 목록 함수 선언.
 		let str = '';
 		let page = 1;
+		let isFinish = false; //글목록 함수가 종료됐는지에 대한 변수(브라우저 로딩이 완료되었는지 안전장치 하나 걸어두는 것.)
+		let reqStatus = false; //더 불러올 list가 있는지를 담는 변수
+
 		const $contentDiv = document.getElementById('contentDiv');
 
 		getList(1,true);
@@ -360,6 +364,7 @@
 		//페이지번호와 리셋여부를 매개변수로 받을 것.
 		function getList(page, reset) {
 			str = '';
+			isFinish = false;
 			console.log('page: ', page);
 			console.log('reset: ', reset);
 
@@ -368,6 +373,11 @@
 			.then(list => {
 				console.log(list);
 				console.log(list.length);
+				if(list.length <= 0) {
+					isFinish = true;
+					reqStatus = true;
+					return;
+				}
 
 				if(reset) {
 					while($contentDiv.firstChild) {
@@ -404,17 +414,19 @@
                             <img src="${pageContext.request.contextPath}/img/icon.jpg"> <span>522</span>
                         </div>
                         <div class="link-inner">
-                            <a href="##"><i class="glyphicon glyphicon-thumbs-up"></i>좋아요</a>
+                            <a id="likeBtn" href="` + board.bno + `"><img src="${pageContext.request.contextPath}/img/like1.png" width="20px" height="20px"/> 좋아요</a>
                             <a data-bno="` + board.bno + `" id="comment" href="` + board.bno + `"><i class="glyphicon glyphicon-comment"></i>댓글달기</a>
                             <a id="delBtn" href="` + board.bno + `"><i class="glyphicon glyphicon-remove"></i>삭제하기</a>
                         </div>`;
 				} //for 종료
 
 				if(!reset) {
-					$contentDiv.insertAdjacentHTML('beforend', str);
+					$contentDiv.insertAdjacentHTML('beforeend', str);
 				} else {
 					$contentDiv.insertAdjacentHTML('afterbegin', str);
 				}
+
+				isFinish = true;
 
 			}); //end fetch
 		} //end getList()
@@ -427,6 +439,7 @@
 			if(!e.target.matches('.image-inner img')
 				&& !e.target.matches('.title #download')
 				&& !e.target.matches('.link-inner #comment')
+				&& !e.target.matches('.link-inner #delBtn')
 			) {
 				console.log('이벤트 대상이 아닌 태그!');
 				return;
@@ -442,6 +455,46 @@
 			
 			}
 
+			//삭제 처리
+			if(e.target.matches('.link-inner #delBtn')) {
+				//비동기 방식으로 삭제를 진행해 주세요. (삭제 버튼은 여러 개 입니다!)
+				//서버쪽에서 권한을 확인 해 주세요. (작성자와 로그인 중인 사용자의 id를 비교해서 일치하는지의 여부)
+				//일치하지 않는다면 문자열 "noAuth" 리턴, 삭제 완료하면 "success" 리턴
+				//url: /snsboard/글번호 method: DELETE
+				const bno = e.target.getAttribute('href');
+				console.log('글번호: ', bno);
+				fetch('${requestContext.request.contextPath}/snsboard/'+bno, {
+					method : 'delete'
+				})
+				.then(res => res.text())
+				.then(data => {
+					if(data === "noAuth") alert('권한이 없습니다.');
+					else if(data === 'fail') alert('관리자에게 문의하세요.');
+					else {
+						alert('게시물이 정상적으로 삭제되었습니다.');
+						getList(1,true); // 삭제가 반영된 새로운 글 목록 보여주기
+					}
+				});
+
+				/*
+				.then(res => {
+					console.log(res.status); //400, 200, 401 이런 것이 뜰 것!
+					if(res.stauts === 400) {
+						alert('궏한이 없습니다.');
+					} else if (res.status === 500) {
+						alert('관리자에게 문의하세요.');
+					} else {
+						alert('게시물이 정상적으로 삭제되었습니다.');
+						getLsit(1,true);
+					}
+				})
+				*/
+
+				return;
+			}
+
+
+
 			//글 번호 얻기
 			const bno = e.target.dataset.bno;
 			console.log('bno: ', bno);
@@ -452,15 +505,15 @@
 			fetch('${pageContext.request.contextPath}/snsboard/content/'+bno)
 			.then(res => res.json())
 			.then(data => {
-				console.log(data);
+				//console.log(data);
 
 				if(data.bno == null) {
 					alert('요청 중 문제가 발생하여 글을 불러오지 못했습니다.');
 					return;
 				}
 
-				const $snsModal = document.getElementById('#snsModal');
-				document.querySelector('.modal-img img').setAttribute('src', '${requestContext.request.contextPath}/snsboard/display/'+data.fileLoca+'/'+data.fileName );
+				const imgSrc = '${requestContext.request.contextPath}/snsboard/display/'+data.fileLoca+'/'+data.fileName;
+				document.querySelector('.modal-img img').setAttribute('src', imgSrc);
 				document.querySelector('.modal-inner #snsWriter').textContent = data.writer ;
 				document.querySelector('.modal-inner #snsRegdate').textContent = data.regDate;
 				document.querySelector('.modal-inner #snsContent').textContent = data.content;
@@ -470,9 +523,92 @@
             //값을 제 위치에 배치하시고 모달을 열어 주세요. 
             //(부트스트랩 모달이기 때문에 jQuery로 열어주세요.)
 			$('#snsModal').modal('show');
-
-		
 		});
+
+
+
+		/*
+        쓰로틀링 - 지정한 일정한 시간 간격 내에서 지정 함수가 한 번만 실행되도록 보장함.
+
+        쓰로틀링은 사용자가 이벤트를 몇번이나 발생시키든, 일정한 간격으로
+        한 번만 실행하도록 하는 기법.
+        마우그 움직임, 스크롤 이벤트 같은 짧은 주기로 자주 발생하는 경우에 사용하는 기법 (lodash 라이브러리를 이용해 구현)
+		_.throttle((콜백)함수, 밀리초)
+        */
+		//handleScroll은 함수임!! 얘 함수야!!!
+		const handleScroll = _.throttle(() => {
+			console.log('throttle actiavate!');
+
+			const scrollPosition = window.pageYOffset;
+			//body 태그 지목방법
+			const height = document.body.offsetHeight;
+			const windowHeight = window.innerHeight;
+
+			if(isFinish) {
+				//공식, 비율 설정은 변경 가능: 스크롤이 90% 지점에 닿으면!
+				if(scrollPosition + windowHeight >= height * 0.9) {
+					console.log('next page call!');
+					console.log('getList전 페이지: ',page);
+					getList(++page, false);
+					console.log('getList 후 페이지: ',page);
+				}
+			}
+
+		}, 1000);
+
+
+		//브라우저 창에서 스크롤이 발생할 때마다 이벤트 발생.
+		window.addEventListener('scroll', () => {
+			if(!reqStatus) handleScroll();
+		});
+
+
+
+		//좋아요 기능 구현
+		$contentDiv.addEventListener('click', (e) => {
+			e.preventDefault();
+			if(!e.target.matches('#likeBtn')) return;
+			console.log('좋아요 버튼이 클릭됨');
+
+			const id = '${login}'; //현재 로그인 중인 사용자의 아이디
+			if(id === '') {// 로그인을 하지 않은 사람은 좋아요 버튼을 누를 수 없음
+				alert('로그인이 필요합니다.');
+				return;
+			}
+			const bno = e.target.getAttribute('href'); //좋아요를 누른 글 번호
+
+			fetch('${pageContext.request.contextPath}/snsboard/like', {
+				method : 'post',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				body : JSON.stringify({
+					'userId' : id,
+					'bno' : bno,
+
+				})
+			})
+			.then(res => res.text())
+			.then(result => {
+				console.log('result: ', result);
+
+				if(result === 'like') {
+					//하트 이미지를 색칠된 이미지로 바꿔줄 것임.
+					e.target.firstElementChild.setAttribute('src','${pageContext.request.contextPath}/img/like2.png');
+					e.target.style.color="blue";
+					const $cnt = e.target.parentNode.previousElementSibling.children[1];
+					$cnt.textContent = Number($cnt.textContent) + 1;
+				} else {
+					e.target.firstElementChild.setAttribute('src','${pageContext.request.contextPath}/img/like1.png');
+					e.target.style.color="black";
+					const $cnt = e.target.parentNode.previousElementSibling.children[1];
+					$cnt.textContent = Number($cnt.textContent) - 1;
+				}
+			});
+		});
+
+
+
 
 
 

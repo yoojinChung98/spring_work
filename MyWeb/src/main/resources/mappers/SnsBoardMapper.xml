@@ -13,6 +13,25 @@
 
 
 	<select id="getList" resultType="sns">
+		SELECT tbl2.*,
+		(SELECT COUNT(*) FROM sns_like WHERE bno = tbl2.bno) AS like_cnt
+		FROM
+			(
+			SELECT ROWNUM AS rn, tbl.*
+			FROM
+				(
+				SELECT * FROM snsboard
+				ORDER BY bno DESC
+				) tbl
+			)tbl2
+		<![CDATA[
+		WHERE rn > #{pageStart} AND rn <= #{pageEnd}
+		]]>
+	</select>
+	
+	
+	<!-- 
+	<select id="getList" resultType="sns">
 		SELECT * FROM
 			(
 			SELECT ROWNUM AS rn, tbl.* FROM
@@ -25,12 +44,37 @@
 		WHERE rn > #{pageStart} AND rn <= #{pageEnd}
 		]]>
 	</select>
+	 -->
+	
 	
 	<select id="getDetail" resultType="sns">
 		SELECT * From snsboard
 		WHERE bno = #{bno}
 	</select>
 	
+	
+	<delete id="delete">
+		DELETE FROM snsboard
+		WHERE bno = #{bno}
+	</delete>
+	
+	
+	<!-- 좋아요 기능 -->
+	
+	<select id="searchLike" resultType="int">
+		SELECT COUNT(*) FROM sns_like
+		WHERE bno = #{bno} AND user_id = #{userId}
+	</select>
+	
+	<insert id="createLike">
+		INSERT INTO sns_like
+		VALUES (sns_like_seq.NEXTVAL, #{userId}, #{bno})
+	</insert>
+	
+	<delete id="deleteLike">
+		DELETE FROM sns_like
+		WHERE bno = #{bno} AND user_id = #{userId}
+	</delete>
 	
 	
 

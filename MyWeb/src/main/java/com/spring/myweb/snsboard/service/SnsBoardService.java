@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -18,8 +19,10 @@ import com.spring.myweb.snsboard.entity.SnsBoard;
 import com.spring.myweb.snsboard.mapper.ISnsBoardMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class SnsBoardService {
 
@@ -97,6 +100,24 @@ public class SnsBoardService {
 
 	public SnsBoardResponseDTO getDetail(int bno) {
 		return new SnsBoardResponseDTO(mapper.getDetail(bno));
+	}
+
+	public void delete(int bno) {
+			mapper.delete(bno);
+		
+	}
+
+	public String searchLike(Map<String, String> params) {
+
+		if(mapper.searchLike(params) == 0) {
+			mapper.createLike(params);
+			return "like";
+		} else {
+			mapper.deleteLike(params);
+			log.info("지나가요~");
+			return "delete";
+		}
+		
 	}
 	
 	
