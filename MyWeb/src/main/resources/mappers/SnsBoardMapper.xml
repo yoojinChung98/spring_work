@@ -76,6 +76,12 @@
 		WHERE bno = #{bno} AND user_id = #{userId}
 	</delete>
 	
+	<select id="likeList" resultType="int">
+		SELECT bno
+		FROM sns_like
+		WHERE user_id = #{userId}
+	</select>
+	
 	
 
 </mapper>

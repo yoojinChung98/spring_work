@@ -73,6 +73,7 @@ public class UserController {
 	@PostMapping("/join")
 	public String join(UserJoinRequestDTO dto, RedirectAttributes ra) {
 		service.join(dto);
+		
 		/*
 		redirect 상황에서 model 객체를 사용하면 데이터가 제대로 전달되지 않습니다.
 		model 객체가 forward 상황에서 사용하는 request의 대체제이기 때문에
@@ -82,6 +83,7 @@ public class UserController {
 		redirect 상황에서 일회성으로 데이터를 전송할 때 사용하느 메서드 addFlashAttribute(name, value)
 		데이터가 url에 노출되지 안혹, 한 번 이용한 후에는 알아서 소멸합니다.
 		 */
+		
 		ra.addFlashAttribute("msg", "joinSuccess");
 		return "redirect:/user/userLogin";
 	}

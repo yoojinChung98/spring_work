@@ -347,7 +347,7 @@
 				document.querySelector('.fileDiv').style.display = 'none'; //미리보기 감추기
 				
 				//글 목록 함수 호출
-				getList(1,true);
+				getLikeList(1, true);
 			});
 		}
 
@@ -359,10 +359,51 @@
 
 		const $contentDiv = document.getElementById('contentDiv');
 
-		getList(1,true);
+		getLikeList(1, true);
+		
+		//지금 게시판에 들어온 회원의 좋아요 게시물 목록을 받아오는 함수
+		function getLikeList(page, reset) {
+			const userId = '${login}';
+			console.log('userId: ', userId);
+
+
+			/*
+			특정 데이터를 브라우저가 제공하는 공간에 저장할 수 있습니다.
+			localStorage, sessionStorage -> 둘의 차이점은 수명의 차이.
+
+			localStorage:
+				1. 브라우저가 종료되더라도 데이터는 유지됨.
+				2. 브라우저 탭이 여러 개 존재하더라도 데이터가 공유됨
+
+			sessionStorage:
+				1. 브라우저가 종료되면 데이터가 소멸됨.
+				2. 브라우저 탭 별로 데이터가 저장되기 때문에 데이터가 공유되지 않음.
+			*/
+
+
+			
+			if(userId != '') {
+				if(sessionStorage.getItem('likeList')) {
+					console.log('sessionStorage에 likeList 존재함! fetch 안함!')
+					getList(page, reset, sessionStorage.getItem('likeList'));
+					return;
+				}
+				fetch('${pageContext.request.contextPath}/snsboard/likeList/'+userId)
+					.then(res => res.json())
+					.then(list => {
+						console.log('좋아요 글 목록: ', list);
+						sessionStorage.setItem('likeList', list);
+						getList(page,reset, list);
+					});
+			} else {
+				getList(page, reset, null);
+			}
+		}
+
+
 
 		//페이지번호와 리셋여부를 매개변수로 받을 것.
-		function getList(page, reset) {
+		function getList(page, reset, likeList) {
 			str = '';
 			isFinish = false;
 			console.log('page: ', page);
@@ -411,10 +452,24 @@
                         </div>
                         <div class="like-inner">
                             <!--좋아요-->
-                            <img src="${pageContext.request.contextPath}/img/icon.jpg"> <span>522</span>
+                            <img src="${pageContext.request.contextPath}/img/icon.jpg"> <span>`+ board.likeCnt +`</span>
                         </div>
-                        <div class="link-inner">
-                            <a id="likeBtn" href="` + board.bno + `"><img src="${pageContext.request.contextPath}/img/like1.png" width="20px" height="20px"/> 좋아요</a>
+                        <div class="link-inner">`;
+
+							if(likeList) { //일단 List가 null은 아닌 경우 (로그인한 사람 중 좋아요가 하나라도 있는 사람)
+
+								//지금 반복문 회차를 돌고있는 '글번호' 가 회원의 likeList에 있는 글번호냐(좋아요 누른 글이냐)?
+								if(likeList.includes(board.bno)) { //있으면 좋아요 버튼에 색칠해줄거임.
+									str += `<a id="likeBtn" href="` + board.bno + `"><img src="${pageContext.request.contextPath}/img/like2.png" width="20px" height="20px"/> 좋아요</a>`
+								
+								} else { //likeList에 이번 반복회차 글번호가 없는 경우
+									str += `<a id="likeBtn" href="` + board.bno + `"><img src="${pageContext.request.contextPath}/img/like1.png" width="20px" height="20px"/> 좋아요</a>`
+								}
+
+							} else { //로그인 하지 않은 사람의 likeList 무조건 null/undefineded와 같은 false의 값들을 갖고 있을 것. 
+								str += `<a id="likeBtn" href="` + board.bno + `"><img src="${pageContext.request.contextPath}/img/like1.png" width="20px" height="20px"/> 좋아요</a>`
+							}
+							str += `
                             <a data-bno="` + board.bno + `" id="comment" href="` + board.bno + `"><i class="glyphicon glyphicon-comment"></i>댓글달기</a>
                             <a id="delBtn" href="` + board.bno + `"><i class="glyphicon glyphicon-remove"></i>삭제하기</a>
                         </div>`;
@@ -463,7 +518,7 @@
 				//url: /snsboard/글번호 method: DELETE
 				const bno = e.target.getAttribute('href');
 				console.log('글번호: ', bno);
-				fetch('${requestContext.request.contextPath}/snsboard/'+bno, {
+				fetch('${pageContext.request.contextPath}/snsboard/'+bno, {
 					method : 'delete'
 				})
 				.then(res => res.text())
@@ -512,7 +567,7 @@
 					return;
 				}
 
-				const imgSrc = '${requestContext.request.contextPath}/snsboard/display/'+data.fileLoca+'/'+data.fileName;
+				const imgSrc = '${pageContext.request.contextPath}/snsboard/display/'+data.fileLoca+'/'+data.fileName;
 				document.querySelector('.modal-img img').setAttribute('src', imgSrc);
 				document.querySelector('.modal-inner #snsWriter').textContent = data.writer ;
 				document.querySelector('.modal-inner #snsRegdate').textContent = data.regDate;
@@ -547,10 +602,7 @@
 			if(isFinish) {
 				//공식, 비율 설정은 변경 가능: 스크롤이 90% 지점에 닿으면!
 				if(scrollPosition + windowHeight >= height * 0.9) {
-					console.log('next page call!');
-					console.log('getList전 페이지: ',page);
-					getList(++page, false);
-					console.log('getList 후 페이지: ',page);
+					getLikeList(++page, false);
 				}
 			}
 

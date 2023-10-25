@@ -119,6 +119,11 @@ public class SnsBoardService {
 		}
 		
 	}
+
+	public List<Integer> likeList(String userId) {
+		return mapper.likeList(userId);
+		
+	}
 	
 	
 	

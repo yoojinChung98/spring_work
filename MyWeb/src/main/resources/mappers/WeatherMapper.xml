@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.spring.myweb.rest.IWeatherMapper">
+	
+	<select id="getCoord" resultType="map">
+		SELECT * FROM
+	    (
+		    SELECT ROWNUM AS rn, nx, ny
+		    FROM test_location
+		    WHERE area1 = #{area1}
+		    AND area2 LIKE '%' || #{area2} || '%'
+	    )
+		WHERE ROWNUM = 1
+	</select>
+	
+</mapper>
